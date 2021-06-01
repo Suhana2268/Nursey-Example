@@ -3,6 +3,7 @@ package com.ec.onlineplantnursery.customer.entity;
 import java.util.List;
 
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -15,22 +16,47 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import com.ec.onlineplantnursery.order.entity.Order;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
+@ApiModel(value = "Customer Bean")
 @TableGenerator(name = "customer_generator", initialValue = 0, allocationSize = 50)
 public class Customer {
 	@Id
 	
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "customer_generator")
 	private Integer customerId;
+
+	@ApiModelProperty(name = "CustomerName", value = "Hold the min 3 char Customer name", required = true)
+	@NotEmpty(message = "Customer Name cannot be left blank or null")
+	@Size(min = 3, max = 50, message = "Invalid Customer Name,Customer Name should have minimum 3 and maximum 50 characters")
 	private String customerName;
+
+	@ApiModelProperty(name = "CustomerEmail", value = "holds valid email id", required = true)
+	@Email(message = "Email should be valid")
+	@NotEmpty(message = "Customer Email cannot be left blank or null")
 	private String customerEmail;
+
+	@ApiModelProperty(name = "CustomerUserName", value = "Hold the min 3 char Customer username", required = true)
+	@NotEmpty(message = "Customer UserName cannot be left blank or null")
+	@Size(min = 3, max = 50, message = "Invalid Customer UserName,Customer UserName should have minimum 3 and maximum 50 characters")
 	private String username;
+
+	@ApiModelProperty(name = "Customer Password", value = "Hold the min 8 char Customer Password", required = true)
+	@Size(min = 8, max = 15, message = "Invalid Customer Password ,Customer password should have minimum 8 and maximum 15 characters")
+	@NotEmpty(message = "Please enter the password, password cannot be null")
 	private String password;
 	
 	@Embedded
+	@Valid
 	private Address address;
 
 	
@@ -39,7 +65,7 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="customerId")
 	List<Order> orders;
 

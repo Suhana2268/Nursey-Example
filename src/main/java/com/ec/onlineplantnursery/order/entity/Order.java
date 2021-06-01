@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import com.ec.onlineplantnursery.customer.entity.Customer;
@@ -33,10 +34,11 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "order_generator")
 	private Integer bookingOrderId;
 	private LocalDate orderDate;
-	
+	@NotEmpty(message = "transactionMode cannot be left blank or null")
 	private String transactionMode;
-	
+	@Positive(message = "quantity should be positive")
 	private int quantity;
+	@Positive(message = "totalCost should be positive")
 	private double totalCost;
 	//list of plants in cart
 	//information of customer for address 
@@ -49,9 +51,8 @@ public class Order {
 	@JoinColumn(name="customerId")
 	private Customer customer;
 	
-	
-	
-	@OneToMany(cascade = CascadeType.ALL)
+
+	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="bookingOrderId")
 	private List<Planter> planters;
 	

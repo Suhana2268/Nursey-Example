@@ -1,33 +1,77 @@
 package com.ec.onlineplantnursery.plant.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 
 @Entity
 @Table(name = "plant")
 @TableGenerator(name = "plant_generator", initialValue = 0, allocationSize = 50)
 public class Plant {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "plant_generator")
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@ApiModelProperty(name="Plant ID",required=true)
 	private Integer plantId;
+	
 	private Integer plantHeight;
+	
+	@NotEmpty(message="Plant spread cannot be blank")
+	@Size(min=3, max=15, message="Invalid Plant spread")
 	private String plantSpread;
+	
+	@Column(unique = true)
+	@NotEmpty(message="Plant Name cannot be blank")
+	@Size(min=3, max=15, message="Invalid Plant Name")
 	private String commonName;
+	
+	@ApiModelProperty(name = "Bloom Time",value = "Hold the min 3 char bloom time",required = true)
+	@NotEmpty(message = "bloom time cannot be left blank or null")
+	@Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters")
 	private String bloomTime;
 	private String medicinalOrCulinaryUse;
+	
+	@ApiModelProperty(name = "Difficulty Level",value = "Should not be null",required = true)
+	@NotEmpty(message = "difficulty level cannot be left blank or null")
 	private String difficultyLevel;
+	
+	@ApiModelProperty(name = "Temperature",value = "Should not be null",required = true)
+	@NotEmpty(message = "Temperature cannot be left blank or null")
 	private String temparature;
+	
+	@NotNull
+	@Size(min=3, max=15, message="Invalid Plant type")
 	private String typeOfPlant;
+	
+	@ApiModelProperty(name = "Plant Description",value = "Should not be null",required = true)
+	@NotEmpty(message = "plant description cannot be left blank or null")
 	private String plantDescription;
+	
+	@ApiModelProperty(name = "PlantStock",value = "Holds only positive value")
+	@Positive(message = "Stock should be positive")
 	private Integer plantsStock;
+	
+	@NotNull
+	@Positive
 	private double plantCost;
 	
 	
-
+	public Plant() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Plant(Integer plantId, Integer plantHeight, Integer plantsStock, String commonName, String bloomTime,
 			String medicinalOrCulinaryUse, String difficultyLevel, String temparature, String typeOfPlant,
 			String plantDescription, String plantSpread, double plantCost) {

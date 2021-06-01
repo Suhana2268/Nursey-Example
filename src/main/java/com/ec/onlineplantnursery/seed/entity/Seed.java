@@ -1,11 +1,18 @@
 package com.ec.onlineplantnursery.seed.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.TableGenerator;
 
 @Entity
@@ -15,17 +22,49 @@ public class Seed {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "seed_generator")
 	private Integer seedId;
-	private String commonName;
-	private String bloomTime;
-	private String watering;
-	private String difficultyLevel;
-	private String temparature;
-	private String typeOfSeeds;
-	private String seedsDescription;
-	private Integer seedsStock;
-	private double seedsCost;
-	private Integer seedsPerPacket;
 	
+	@ApiModelProperty(name = "SeedName",value = "Hold the min 3 char seed name",required = true)
+	@NotEmpty(message = "Seed Name cannot be left blank or null")
+	@Size(min = 3, max = 15, message = "Invalid Seed Name, Seed Name should have minimum 3 and maximum 15 characters")
+	@Column(unique = true)
+	private String commonName;
+	
+	@ApiModelProperty(name = "Bloom Time",value = "Hold the min 3 char bloom time",required = true)
+	@NotEmpty(message = "bloom time cannot be left blank or null")
+	@Size(min = 3, max = 15, message = "Invalid bloom time, bloom time should have minimum 3 and maximum 15 characters")
+	private String bloomTime;
+	
+	@ApiModelProperty(name = "Watering",value = "Should not be null",required = true)
+	@NotEmpty(message = "watering cannot be left blank or null")
+	private String watering;
+	
+	@ApiModelProperty(name = "Difficulty Level",value = "Should not be null",required = true)
+	@NotEmpty(message = "difficulty level cannot be left blank or null")
+	private String difficultyLevel;
+	
+	@ApiModelProperty(name = "Temperature",value = "Should not be null",required = true)
+	@NotEmpty(message = "Temperature cannot be left blank or null")
+	private String temparature;
+	
+	@ApiModelProperty(name = "Type of Seeds",value = "Should not be null",required = true)
+	@NotEmpty(message = "Type of seeds cannot be left blank or null")
+	private String typeOfSeeds;
+	
+	@ApiModelProperty(name = "Seeds Description",value = "Should not be null",required = true)
+	@NotEmpty(message = "seeds description cannot be left blank or null")
+	private String seedsDescription;
+	
+	@ApiModelProperty(name = "SeedStock",value = "Holds only positive value")
+	@Positive(message = "Stock should be positive")
+	private Integer seedsStock;
+	
+	@ApiModelProperty(name = "SeedCost",value = "Holds only positive value")
+	@Positive(message = "Cost should be positive")
+	private double seedsCost;
+	
+	@ApiModelProperty(name = "SeedsPerPacket",value = "Holds only positive value")
+	@Positive(message = "SeedsPerPacket should be positive")
+	private Integer seedsPerPacket;
 	
 	
 	

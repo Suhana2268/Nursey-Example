@@ -12,6 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import com.ec.onlineplantnursery.customer.entity.Customer;
 import com.ec.onlineplantnursery.order.entity.Order;
 import com.ec.onlineplantnursery.plant.entity.Plant;
@@ -21,25 +25,31 @@ import com.ec.onlineplantnursery.seed.entity.Seed;
 @Table(name = "Planter")
 @TableGenerator(name = "planter_generator", initialValue = 0, allocationSize = 50)
 public class Planter {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE,generator = "planter_generator")
 	private Integer planterId;
+	
 	private float planterheight;
+	
+	@Min(value = 1, message = "Capacity cannot be less than 1")
 	private int planterCapacity;
+	
 	private int drinageHoles;
 	private int planterColor;
+	
+	@NotEmpty(message = "Planter shape cannot be left blank or null")
+	@Size(min = 3,max = 15, message = "Invalid Planter shape")
 	private String planterShape;
+	
+	@Min(value = 1, message = "In stock cannot be less than 1")
 	private int planterStock;
+	
+	@Min(value = 50, message = "Cost cannot be less than 50")
 	private int planterCost;
+	
 
-	
-	/**@ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "Order_Info", nullable = false)
-    private Order order;**/
-	
-	
-	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "Plant_info", referencedColumnName = "plantId")
 	private Plant plant;
 	
@@ -54,9 +64,17 @@ public class Planter {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
+	
 
-	public Planter(Integer planterId, float planterheight, int planterCapacity, int drinageHoles, int planterColor,
-			String planterShape, int planterStock, int planterCost, Plant plant, Seed seed,int type) {
+
+	public Planter(Integer planterId, float planterheight,
+			@Min(value = 1, message = "Capacity cannot be less than 1") int planterCapacity, int drinageHoles,
+			int planterColor,
+			@NotEmpty(message = "Planter shape cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Planter shape") String planterShape,
+			@Min(value = 1, message = "In stock cannot be less than 1") int planterStock,
+			@Min(value = 50, message = "Cost cannot be less than 50") int planterCost, Plant plant, Seed seed) {
 		super();
 		this.planterId = planterId;
 		this.planterheight = planterheight;
@@ -66,16 +84,82 @@ public class Planter {
 		this.planterShape = planterShape;
 		this.planterStock = planterStock;
 		this.planterCost = planterCost;
-		if(type==3) {this.plant = plant;
+		this.plant = plant;
 		this.seed = seed;
-		}
-		else if(type==2) {
-			this.seed=seed;
-		}
-		else {
-			this.plant=plant;
-		}
 	}
+
+
+
+
+
+
+	public Planter(Integer planterId, float planterheight,
+			@Min(value = 1, message = "Capacity cannot be less than 1") int planterCapacity, int drinageHoles,
+			int planterColor,
+			@NotEmpty(message = "Planter shape cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Planter shape") String planterShape,
+			@Min(value = 1, message = "In stock cannot be less than 1") int planterStock,
+			@Min(value = 50, message = "Cost cannot be less than 50") int planterCost) {
+		super();
+		this.planterId = planterId;
+		this.planterheight = planterheight;
+		this.planterCapacity = planterCapacity;
+		this.drinageHoles = drinageHoles;
+		this.planterColor = planterColor;
+		this.planterShape = planterShape;
+		this.planterStock = planterStock;
+		this.planterCost = planterCost;
+	}
+
+
+
+
+
+
+	public Planter(Integer planterId, float planterheight,
+			@Min(value = 1, message = "Capacity cannot be less than 1") int planterCapacity, int drinageHoles,
+			int planterColor,
+			@NotEmpty(message = "Planter shape cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Planter shape") String planterShape,
+			@Min(value = 1, message = "In stock cannot be less than 1") int planterStock,
+			@Min(value = 50, message = "Cost cannot be less than 50") int planterCost, Seed seed) {
+		super();
+		this.planterId = planterId;
+		this.planterheight = planterheight;
+		this.planterCapacity = planterCapacity;
+		this.drinageHoles = drinageHoles;
+		this.planterColor = planterColor;
+		this.planterShape = planterShape;
+		this.planterStock = planterStock;
+		this.planterCost = planterCost;
+		this.seed = seed;
+	}
+
+
+
+
+
+
+	public Planter(Integer planterId, float planterheight,
+			@Min(value = 1, message = "Capacity cannot be less than 1") int planterCapacity, int drinageHoles,
+			int planterColor,
+			@NotEmpty(message = "Planter shape cannot be left blank or null") @Size(min = 3, max = 15, message = "Invalid Planter shape") String planterShape,
+			@Min(value = 1, message = "In stock cannot be less than 1") int planterStock,
+			@Min(value = 50, message = "Cost cannot be less than 50") int planterCost, Plant plant) {
+		super();
+		this.planterId = planterId;
+		this.planterheight = planterheight;
+		this.planterCapacity = planterCapacity;
+		this.drinageHoles = drinageHoles;
+		this.planterColor = planterColor;
+		this.planterShape = planterShape;
+		this.planterStock = planterStock;
+		this.planterCost = planterCost;
+		this.plant = plant;
+	}
+
+
+
+
+
 
 	public Integer getPlanterId() {
 		return planterId;

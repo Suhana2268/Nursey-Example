@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ec.onlineplantnursery.order.entity.Order;
 
-public interface IOrderRepository extends JpaRepository<Order, Integer> {
+public interface IOrderRepository extends JpaRepository<Order, Integer>, CustomOrderRepository {
 	
 
 }
